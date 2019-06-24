@@ -6,6 +6,7 @@
   "icons": {
     "128": "icon.png"
   },
+  "homepage_url": "https://github.com/erraineon/twitter-morefilter",
 
   "permissions": [
     "storage",
