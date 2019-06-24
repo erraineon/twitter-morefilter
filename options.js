@@ -20,7 +20,7 @@ function initializeOptions() {
                     unmuteButton.innerHTML = "&times;";
                     unmuteButton.onclick = () => {
                         userSettings.textMuted = false;
-                        browser.storage.local.set({ [key]: userSettings }, initializeOptions);
+                        chrome.storage.local.set({ [key]: userSettings }, initializeOptions);
                     };
                     li.appendChild(span);
                     li.appendChild(unmuteButton);
