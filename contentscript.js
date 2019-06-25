@@ -81,26 +81,7 @@ function observePage() {
     pageObserver.observe(document, { childList: true, subtree: true });
 }
 
-function initializeScript() {
-    chrome.storage.local.get(function(settings) {
-        // cache settings in a global variable on a per-page context
-        cachedSettings = settings;
-        observePage();
-    });
-}
-
-// sometimes Twitter navigates between pages without reloading
-// use a background navigation observer that pushes update messages to reload this script
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    if (msg === 'twitter-url-update') {
-        initializeScript();
-    }
-});
-
-initializeScript();
-
-// as the script runs before the document loads, wait until the DOM loads to hook onto the dropdown
-document.addEventListener('DOMContentLoaded', function () {
+function hookUserDropdown() {
     let userActionsDiv = document.querySelector(USER_ACTIONS_SELECTOR);
     let isOnUserPage = userActionsDiv !== null;
     if (isOnUserPage) {
@@ -144,4 +125,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         initializeMuteButton();
     }
-}, false);
+}
+
+function initializeScript() {
+    chrome.storage.local.get(function(settings) {
+        // cache settings in a global variable on a per-page context
+        cachedSettings = settings;
+        observePage();
+        hookUserDropdown();
+    });
+}
+
+// sometimes Twitter navigates between pages without reloading
+// use a background navigation observer that pushes update messages to reload this script
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (msg === 'twitter-url-update') {
+        initializeScript();
+    }
+});
+
+initializeScript();
+
+// as the script runs before the document loads, wait until the DOM loads to hook onto the dropdown
+document.addEventListener('DOMContentLoaded', hookUserDropdown, false);
