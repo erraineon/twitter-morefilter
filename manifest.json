@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Advanced Twitter filters",
-  "version": "1.1",
+  "version": "1.2",
   "description": "allows to filter text-only tweets on a per-user basis",
   "icons": {
     "128": "icon.png"
